@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Throttled Click Tracker</title>
+<style>
+  body, html {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    position: relative; 
+    background: linear-gradient(135deg, #f2f5f8, #ffffff);
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .card-absolute {
+    position: absolute;
+    width: 300px;
+    height: 250px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fafafa;
+    border: 2px solid #0078d4;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  .card-absolute h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 22px;
+    color: #005a9e;
+    text-align: center;
+  }
+
+  .card-absolute p {
+    margin: 0;
+    font-size: 14px;
+    color: #333;
+    line-height: 1.4;
+    text-align: center;
+  }
+  #countDis {
+    font-size: 25px;       
+    font-weight: bold;     
+    color: #0078d4;        
+    margin: 10px 0;
+    text-align: center;
+}
+
+.button-group {
+  text-align: center;
+  margin-top: 0px;
+}
+
+.button-group button {
+  padding: 10px 20px;
+  font-size: 15px;
+  border-radius: 12px;
+  margin: 0 10px;
+  cursor: pointer;
+  background-color: #0078d4;
+  color: white;
+  border: none;
+  transition: background 0.3s ease;
+}
+
+.button-group button:hover {
+  background-color: #005a9e;
+}
+</style>
+</head>
+<body>
+
+<div class="card-absolute">
+  <h2>Throttled Click Tracker</h2>
+   <p><strong>"With absolute card centered"</strong></p>
+   <p>Displays count every 500ms while still tracking all rapid button clicks.</p>
+   <div id="countDis" aria-live="polite" >0</div>
+   <div class="button-group">
+    <button id="clickBtn">Click Me</button>
+    <button id="resetBtn">Reset</button></div>
+  </div>
+  
+
+  <script>
+    const clickButton = document.getElementById('clickBtn');
+    const countdisplay = document.getElementById('countDis');
+    const resetButton = document.getElementById('resetBtn');
+
+    let count = 0;
+    let lastUpdate = 0;
+    const THROTTLE_TIME = 500;
+
+    clickButton.addEventListener('click', () => {
+      count++;
+
+      const now = Date.now();
+      if (now - lastUpdate >= THROTTLE_TIME) {
+        countdisplay.textContent = count;
+        lastUpdate = now;
+      }
+    });
+    // Additional Reset button to set count='0' on click
+    resetButton.addEventListener('click', () => {
+      count = 0;
+      countdisplay.textContent = count;
+    });
+  </script>
+
+</body>
+</html>
+
